@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/online_exam
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  mail:
+    protocol: smtp
+    host: smtp.163.com
+    port: 25
+    username: email address
+    password: private-key
+    default-encoding: utf-8
+    test-connection: false
+    properties:
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    database: 0
+    timeout: 10000  # 单位ms, redis服务器配置5s
+    jedis:
+      pool:
+        max-active: 8 # 最大连接数
+        max-wait: 1ms # 连接池最大阻塞等待时间
+        max-idle: 4   # 连接池中的最大空闲连接
+        min-idle: 0   # 连接池中的最小空闲连接
+
+# 分页d插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  params: count=countSql
+  support-methods-arguments: true
+  page-size-zero: true
+
+my-email:
+  title: "[在线考试系统] 您的账号验证码"
+
+jwt:
+  secret: P@ssw0rd123 # 加密密钥
+
+mybatis:
+  configuration:
+    # 开启sql日志
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    mapper-locations: classpath:com.zeke.dao
+    map-underscore-to-camel-case: true
+    # 开启事务管理器
+    sqlSessionTemplate:
+      executorType: BATCH
+
+# 判题机配置
+judge:
+  host: http://127.0.0.1:5050

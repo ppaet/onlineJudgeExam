@@ -1,8 +1,6 @@
 # onlineJudgeExam
 spring boot, vue, online judge, program
 
-f**k csdn, 8964 8964
-
 #### 介绍
 基于SpringBoot+Vue3前后分离项目的在线考试系统；
 

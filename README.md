@@ -61,7 +61,3 @@ f**k csdn, 8964 8964
     pnpm run dev
     ```
 
-
-感谢开源社区：
-https://github.com/JQ6374/online_exam
-https://github.com/criyle/go-judge

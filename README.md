@@ -1,8 +1,10 @@
 # onlineJudgeExam
-spring boot, vue, online judge, program
+java, spring boot, vue, online judge, program
 
 #### 介绍
 基于SpringBoot+Vue3前后分离项目的在线考试系统；
+
+#### 要当毕设的Developer们，给个star吧
 
 #### 软件架构
 前端：

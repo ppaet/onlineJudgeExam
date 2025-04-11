@@ -2,6 +2,8 @@ package com.zeke.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zeke.bean.User;
+import com.zeke.dao.UserDao;
 import com.zeke.service.TopicService;
 import com.zeke.bean.Papers;
 import com.zeke.bean.Topic;
@@ -35,6 +37,9 @@ public class TopicServiceImpl implements TopicService {
     @Autowired
     private TopicTypeDao topicTypeDao;
 
+    @Autowired
+    private UserDao userDao;
+
     /**
      * 添加题目
      */
@@ -57,7 +62,14 @@ public class TopicServiceImpl implements TopicService {
      */
     @Override
     public ArrayList<Topic> selectByUId(Integer uId) {
-        return topicDao.selectByUId(uId);
+        User user = userDao.getById(uId);
+        ArrayList<Topic> topics = new ArrayList<>();
+        if (user.getrId() == 0) {
+            topics = topicDao.getAll();
+        } else {
+            topics = topicDao.selectByUId(uId);
+        }
+        return topics;
     }
 
     /**

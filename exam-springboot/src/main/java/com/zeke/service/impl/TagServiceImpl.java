@@ -1,6 +1,8 @@
 package com.zeke.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zeke.bean.User;
+import com.zeke.dao.UserDao;
 import com.zeke.service.TagService;
 import com.zeke.bean.Tag;
 import com.zeke.dao.TagDao;
@@ -16,6 +18,8 @@ import java.util.List;
 public class TagServiceImpl implements TagService {
     @Autowired
     TagDao tagDao;
+    @Autowired
+    private UserDao userDao;
 
     public ApiResult<Integer> updateTag(JSONObject tag) {
         Integer integer = tagDao.updateTag(tag);
@@ -23,8 +27,15 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public ApiResult<List<Tag>> selectAll(Integer uId) {
-        ArrayList<Tag> tags = tagDao.selectAll(uId);
+    public ApiResult<List<Tag>> selectAllByuId(Integer uId) {
+        User user = userDao.getById(uId);
+        ArrayList<Tag> tags = new ArrayList<>();
+        if (user.getrId() == 0) {
+            tags = tagDao.getAll();
+        } else {
+            tags = tagDao.selectAllByuId(uId);
+        }
+
         return new ApiResult<>(Code.GET_OK, tags, tags.size() > 0 ? "查询成功" : "查询失败");
     }
 

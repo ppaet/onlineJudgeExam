@@ -9,7 +9,7 @@ import java.util.List;
 public interface TagService {
     ApiResult<Integer> updateTag(JSONObject tag);
 
-    ApiResult<List<Tag>> selectAll(Integer uId);
+    ApiResult<List<Tag>> selectAllByuId(Integer uId);
 
     ApiResult<Integer> addTag(JSONObject json);
 

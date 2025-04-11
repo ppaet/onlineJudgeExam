@@ -62,6 +62,12 @@ public class UserController {
         return userService.login(user);
     }
 
+    @PostMapping("/resetPassword")
+    public ApiResult<Object> resetPassword(Integer uId) {
+        userService.resetPassword(uId);
+        return new ApiResult<>(Code.GET_OK, null, "登录成功");
+    }
+
     @DeleteMapping("/logout/{uId}")
     public ApiResult<Object> logout(@PathVariable String uId) {
         return userService.logout(uId);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 // @ts-ignore
 export const constantRouter = [
@@ -316,7 +317,122 @@ export const constantRouter = [
             name: 'allUser'
           },
         ]
-      }
+      },
+      {
+        path: '1home',
+        // @ts-ignore
+        component: () => import('@/views/admin/home/Index.vue'),
+        meta: {
+          title: '主页',
+          hidden: true,
+          icon: 'HomeFilled'
+        },
+        name: 'home'
+      },
+      {
+        path: '1courseTeacher',
+        name: '1courseTeacher',
+        meta: {
+          title: '课程管理',
+          hidden: false,
+          icon: 'Collection'
+        },
+        children: [
+          {
+            path: 'courseList',
+            name: 'courseList',
+            // @ts-ignore
+            component: () => import('@/views/admin/course/List.vue'),
+            meta: {
+              title: '课程列表',
+              hidden: false,
+            },
+          },
+          {
+            path: 'tagList',
+            name: 'tagList',
+            // @ts-ignore
+            component: () => import('@/views/admin/tag/List.vue'),
+            meta: {
+              title: '标签列表',
+              hidden: false,
+            },
+          },
+        ]
+      },
+      {
+        path: '1topic',
+        name: '1topic',
+        meta: {
+          title: '题库管理',
+          hidden: false,
+          icon: 'OfficeBuilding'
+        },
+        children: [
+          {
+            path: 'topicList',
+            name: 'topicList',
+            // @ts-ignore
+            component: () => import('@/views/admin/topic/List.vue'),
+            meta: {
+              title: '题目列表',
+              hidden: false,
+            }
+          },
+        ]
+      },
+      {
+        path: '1papers',
+        name: '1papers',
+        meta: {
+          title: '试卷管理',
+          hidden: false,
+          icon: 'Reading'
+        },
+        children: [
+          {
+            path: 'papersList',
+            name: 'papersList',
+            // @ts-ignore
+            component: () => import('@/views/admin/papers/List.vue'),
+            meta: {
+              title: '试卷列表',
+              hidden: false,
+            },
+          },
+        ]
+      },
+      {
+        path: '1exam',
+        name: '1exam',
+        meta: {
+          title: '考试管理',
+          hidden: false,
+          icon: 'DataLine'
+        },
+        children: [
+          {
+            path: 'examList',
+            name: 'examList',
+            // @ts-ignore
+            component: () => import('@/views/admin/exam/List.vue'),
+            meta: {
+              title: '考试列表',
+              hidden: false,
+            },
+          },
+          {
+            path: 'examScore',
+            name: 'examScore',
+            // @ts-ignore
+            component: () => import('@/views/admin/exam/ExamScore.vue'),
+            meta: {
+              title: '考试成绩',
+              hidden: false,
+            },
+          },
+        ]
+      },
     ]
   },
   {

@@ -28,7 +28,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public ArrayList<Tag> getTagList(Integer uId) {
-        return tagDao.selectAll(uId);
+        return tagDao.selectAllByuId(uId);
     }
 
     @Override

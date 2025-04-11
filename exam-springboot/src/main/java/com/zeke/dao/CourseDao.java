@@ -12,6 +12,9 @@ public interface CourseDao {
     @Select("select * from course where u_id= #{uId} and is_exist=1 ORDER BY create_time DESC")
     ArrayList<Course> selectByUId(Integer uId);
 
+    @Select("select * from course where is_exist=1 ORDER BY create_time DESC")
+    ArrayList<Course> getAll();
+
     /**
      * 查询该老师所教课程的所有学生
      *
@@ -84,4 +87,11 @@ public interface CourseDao {
             "</script>"
     })
     ArrayList<Course> select(@Param("uId") Integer uId, @Param("name") String name, @Param("courseCode") String courseCode);
+
+    @Select("select sc.u_id as uId, course.c_id as cId, sc.uc_id as ucId," +
+            "user.userName, user.email, " +
+            "course.name as courseName " +
+            "FROM user,course,student_course as sc " +
+            "WHERE user.u_id = sc.u_id  AND sc.c_id = course.c_id ORDER BY create_time DESC")
+    ArrayList<JSONObject> getAllStudentAndCourse();
 }

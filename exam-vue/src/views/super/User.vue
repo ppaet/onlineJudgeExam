@@ -20,6 +20,13 @@
             <template #default="scope">
               <el-button
                   type="danger"
+                  icon="Key"
+                  v-if="scope.row.rId !== 0"
+                  circle
+                  @click="resetPassword(scope.row)"
+              />
+              <el-button
+                  type="danger"
                   icon="Delete"
                   v-if="scope.row.rId !== 0"
                   circle
@@ -97,6 +104,26 @@
     }).then(async () => {
       const res = await myRequest.delete<any, ApiResult>(`/user/`, {params: {uId: row.uId}})
       MyElNotification(res, Code.DELETE_OK, '删除');
+      await getTableData();
+    }).catch(() => {
+      // 点击取消按钮后的回调函数
+      ElNotification({
+        title: '提示信息',
+        message: '您取消了该操作！',
+        type: 'warning',
+        duration: setting.duration
+      })
+    });
+  }
+
+  const resetPassword = (row) => {
+    ElMessageBox.confirm('此操作将重置密码为“123456”, 是否继续?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async () => {
+      const res = await myRequest.post<any, ApiResult>(`/user/resetPassword?uId=${row.uId}`)
+      MyElNotification(res, Code.GET_OK, '重置');
       await getTableData();
     }).catch(() => {
       // 点击取消按钮后的回调函数

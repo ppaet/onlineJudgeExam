@@ -1,9 +1,12 @@
 package com.zeke.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zeke.bean.User;
+import com.zeke.dao.UserDao;
 import com.zeke.service.CourseService;
 import com.zeke.bean.Course;
 import com.zeke.dao.CourseDao;
+import com.zeke.service.UserService;
 import com.zeke.utils.Code;
 import com.zeke.utils.CourseUtils;
 import com.zeke.utils.result.ApiResult;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +25,19 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseDao courseDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public ApiResult<List<Course>> selectByUId(Integer uId) {
-        ArrayList<Course> courses = courseDao.selectByUId(uId);
+        User user = userDao.getById(uId);
+        ArrayList<Course> courses = new ArrayList<>();
+        if (user.getrId() == 0) {
+            courses = courseDao.getAll();
+        } else {
+            courses = courseDao.selectByUId(uId);
+        }
+
         System.out.println(courses);
         boolean isEmpty = courses.isEmpty();
         return new ApiResult<>(Code.GET_OK, courses, !isEmpty ? "查询成功！" : "查询结果为空！");
@@ -72,7 +85,13 @@ public class CourseServiceImpl implements CourseService {
      * @return 返回apiresult
      */
     public ApiResult<List<JSONObject>> selectStudentAndCourse(Integer uId) {
-        ArrayList<JSONObject> jsonObjects = courseDao.selectStudentAndCourse(uId);
+        User user = userDao.getById(uId);
+        ArrayList<JSONObject> jsonObjects = new ArrayList<>();
+        if (user.getrId() == 0) {
+            jsonObjects = courseDao.getAllStudentAndCourse();
+        } else {
+            jsonObjects = courseDao.selectStudentAndCourse(uId);
+        }
         ApiResult<List<JSONObject>> apiResult = new ApiResult<>();
         apiResult.setData(jsonObjects);
         if (apiResult.getData() != null) {

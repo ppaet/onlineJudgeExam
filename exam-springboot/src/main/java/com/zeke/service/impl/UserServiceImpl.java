@@ -141,4 +141,15 @@ public class UserServiceImpl implements UserService {
         return new ApiResult<>(isSuccess ? Code.DELETE_OK : Code.DELETE_ERR, null,
                 isSuccess ? "已删除用户！" : "删除失败！");
     }
+
+    @Override
+    public boolean resetPassword(Integer uId) {
+        User user = userDao.getById(uId);
+        if (user != null) {
+            user.setPassword(encoder.encode("123456"));
+            Integer integer = userDao.updateUser(user);
+            return integer != 0;
+        }
+        return false;
+    }
 }

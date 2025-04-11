@@ -21,4 +21,6 @@ public interface UserService {
     ApiResult<List<User>> getAll();
 
     ApiResult<Object> deleteUser(Integer uId);
+
+    boolean resetPassword(Integer uId);
 }

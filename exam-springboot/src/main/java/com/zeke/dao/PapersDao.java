@@ -55,4 +55,7 @@ public interface PapersDao {
      */
     @Update("update papers set name=#{name} where p_id=#{pId} and is_exist=1")
     Integer updateName(Integer pId, String name);
+
+    @Select("select * from papers where is_exist=1 ORDER BY create_time DESC ")
+    ArrayList<Papers> getAll();
 }

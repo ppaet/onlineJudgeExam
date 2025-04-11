@@ -1,5 +1,7 @@
 package com.zeke.service.impl;
 
+import com.zeke.bean.User;
+import com.zeke.dao.UserDao;
 import com.zeke.service.PapersService;
 import com.zeke.bean.Papers;
 import com.zeke.dao.PapersDao;
@@ -17,10 +19,18 @@ public class PaperServiceImpl implements PapersService {
 
     @Autowired
     private PapersDao papersDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public ApiResult<List<Papers>> selectAllByUId(Integer uId) {
-        ArrayList<Papers> papersList = papersDao.selectAllByUId(uId);
+        User user = userDao.getById(uId);
+        ArrayList<Papers> papersList = new ArrayList<>();
+        if (user.getrId() == 0) {
+            papersList = papersDao.getAll();
+        } else {
+            papersList = papersDao.selectAllByUId(uId);
+        }
         int count = papersList.size();
         return new ApiResult<>(Code.GET_OK, papersList,
                 count != 0 ? "所用试卷共" + count + "套试卷！" : "暂无试卷，请添加！");

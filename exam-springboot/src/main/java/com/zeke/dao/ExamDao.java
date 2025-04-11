@@ -156,4 +156,7 @@ public interface ExamDao {
 
     @Update("update student_exam set review=#{comments} where se_id=#{seId}")
     Integer addComments(Integer seId, String comments);
+
+    @Select("select * from exam where is_exist=1 ORDER BY start_time DESC")
+    List<Exam> getAll();
 }

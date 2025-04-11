@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public interface TagDao {
 
     @Select("select tag_id, u_id, name from tag where u_id in (0,#{uId})")
-    ArrayList<Tag> selectAll(Integer uId);
+    ArrayList<Tag> selectAllByuId(Integer uId);
 
     @Select("select name from tag where tag_id=#{tagId}")
     String selectById(Integer tagId);
@@ -25,4 +25,7 @@ public interface TagDao {
 
     @Delete("delete from tag where tag_id = #{tagId}")
     Integer deleteTag(Integer tagId);
+
+    @Select("select tag_id, u_id, name from tag")
+    ArrayList<Tag> getAll();
 }

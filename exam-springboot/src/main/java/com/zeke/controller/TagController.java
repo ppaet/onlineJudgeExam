@@ -23,7 +23,7 @@ public class TagController {
      */
     @GetMapping("/getTags/{uId}")
     public ApiResult<List<Tag>> getAllTag(@PathVariable("uId") Integer uId) {
-        return tagService.selectAll(uId);
+        return tagService.selectAllByuId(uId);
     }
 
     @PostMapping("/addTag")

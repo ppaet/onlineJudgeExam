@@ -98,4 +98,7 @@ public interface TopicDao {
     @Select("select t_id, type_id, tag_id, difficulty_id, question, answer from topic where (u_id=#{uId} or status=1) and is_exist=1 " +
             "and type_id=#{typeId} and tag_id=#{tagId}")
     ArrayList<Topic> selectByTypeId(Integer uId, Integer typeId, Integer tagId);
+
+    @Select("select * from topic where is_exist=1 ORDER BY create_time DESC")
+    ArrayList<Topic> getAll();
 }

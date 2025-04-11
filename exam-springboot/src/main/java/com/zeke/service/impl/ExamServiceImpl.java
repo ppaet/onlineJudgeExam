@@ -99,7 +99,13 @@ public class ExamServiceImpl implements ExamService {
         ApiResult<List<Exam>> apiResult = new ApiResult<>();
 //        Page<?> page = PageHelper.startPage(Integer.parseInt(pageNumNow), 5);  //设置第几条记录开始，多少条记录为一页
         //通过userService获取user的信息，其sql语句为"select * from user" 但因pageHelper已经注册为插件，所以pageHelper会在原sql语句上增加limit，从而实现分页
-        List<Exam> exams = examDao.selectAll(uId);//因而获得的是分好页的结果集
+        User user = userDao.getById(uId);
+        List<Exam> exams = new ArrayList<>();
+        if (user.getrId() == 0) {
+            exams = examDao.getAll();
+        } else {
+            exams = examDao.selectAll(uId);//因而获得的是分好页的结果集
+        }
 //        PageInfo<?> pageHelper = page.toPageInfo(); //获取页面信息的对象，里面封装了许多页面的信息 如：总条数，当前页码，需显示的导航页等等
         apiResult.setData(exams);
         if (apiResult.getData() != null) {
@@ -308,7 +314,16 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ApiResult<List<JSONObject>> examReview(Integer uId) {
-        List<Exam> examList = examDao.selectAll(uId);
+        User user = userDao.getById(uId);
+        List<Exam> examList = new ArrayList<>();
+        List<Course> courseList = new ArrayList<>();
+        if (user.getrId() == 0) {
+            examList = examDao.getAll();
+            courseList = courseDao.getAll();
+        } else {
+            examList = examDao.selectAll(uId);
+            courseList = courseDao.selectByUId(uId);
+        }
         List<StudentExam> res = examDao.getStudentExamByEIds(examList.stream().map(Exam::geteId).collect(Collectors.toList()));
         if (res.isEmpty()) {
             return new ApiResult<>(Code.GET_ERR, null, "查询结果为空！");
@@ -318,7 +333,6 @@ public class ExamServiceImpl implements ExamService {
                 .collect(Collectors.toMap(Exam::geteId, Exam::getName));
         Map<Integer, Integer> examIdTocIdMap = examList.stream()
                 .collect(Collectors.toMap(Exam::geteId, Exam::getcId));
-        List<Course> courseList = courseDao.selectByUId(uId);
         Map<Integer, String> courseIdToNameMap = courseList.stream()
                 .collect(Collectors.toMap(Course::getcId, Course::getName));
         List<User> userList = userDao.getByIds(studentExamList.stream().map(StudentExam::getuId).collect(Collectors.toList()));

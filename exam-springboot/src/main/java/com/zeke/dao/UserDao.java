@@ -23,6 +23,9 @@ public interface UserDao {
     @Update("update user set password=#{password} where email=#{email} and r_id=#{rId}")
     Integer updateUser(User user);
 
+    @Select("select * from user where u_id = #{uId}")
+    User getById(Integer uId);
+
     @Select("select username from user where u_id = #{uId}")
     String getNameById(Integer uId);
 
